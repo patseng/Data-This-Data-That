@@ -26,3 +26,13 @@ Data-This-Data-That
 <h3> Inside of the root directory </h3>
 
     grunt server
+
+<h1> Building and Deploying </h1>
+
+After app modification run
+
+	grunt build
+	
+Then deploy with
+
+	grunt buildcontrol:heroku
