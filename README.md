@@ -18,5 +18,11 @@ Data-This-Data-That
     npm install -g bower
 
 <h1> Run the Server </h1>
+    
+<h3> Make sure that a mongodb process is running </h3>
+
+    mongod --config /usr/local/etc/mongod.conf
+    
+<h3> Inside of the root directory </h3>
 
     grunt server
