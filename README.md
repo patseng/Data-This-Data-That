@@ -17,6 +17,13 @@ Data-This-Data-That
     (sudo) npm install -g grunt-cli
     (sudo) npm install -g grunt-cli
     (sudo) npm install -g bower
+    
+<h3>Install All Project Dependencies </h3>
+
+	(sudo) npm install 
+	(sudo) bower install
+	
+The NPM dependencies are for the server and the bower dependencies are for the front end app.
 
 <h1> Run the Server </h1>
     
