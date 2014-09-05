@@ -15,7 +15,7 @@ Data-This-Data-That
 
     (sudo) npm install -g yo
     (sudo) npm install -g grunt-cli
-    (sudo) npm install -g grunt-cli
+    (sudo) npm install -g grunt
     (sudo) npm install -g bower
     
 <h3>Install All Project Dependencies </h3>
