@@ -13,9 +13,10 @@ Data-This-Data-That
     
 <h3>3) Install Yeoman (scaffolding tool), Grunt (build system), and Bower (package manager)</h3>
 
-    npm install -g yo
-    npm install -g grunt-cli
-    npm install -g bower
+    (sudo) npm install -g yo
+    (sudo) npm install -g grunt-cli
+    (sudo) npm install -g grunt-cli
+    (sudo) npm install -g bower
 
 <h1> Run the Server </h1>
     
