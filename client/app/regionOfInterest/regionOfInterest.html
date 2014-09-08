@@ -1,0 +1,10 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="col-md-12">
+	<h1>This is the regionOfInterest view for document {{ docId }}</h1>
+	<form ng-submit="save(doc)">
+        <input ng-model="doc.original_image">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <img src="{{doc.original_image}}" alt="Choose An Image">
+</div>
