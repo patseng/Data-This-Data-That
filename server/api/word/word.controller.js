@@ -15,7 +15,6 @@ var Word = require('./word.model');
 // Get list of words
 exports.index = function(req, res) {
   console.log("words layer");
-  console.log(parser.get_document_ids(req.originalUrl));
   Word.find(function (err, words) {
     if(err) { return handleError(res, err); }
     return res.json(200, words);

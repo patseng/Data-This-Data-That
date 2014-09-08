@@ -15,7 +15,6 @@ var Textline = require('./textline.model');
 // Get list of textlines
 exports.index = function(req, res) {
   console.log("textline page");
-  console.log(parser.get_document_ids(req.originalUrl));
   Textline.find(function (err, textlines) {
     if(err) { return handleError(res, err); }
     return res.json(200, textlines);

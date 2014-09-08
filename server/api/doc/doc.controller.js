@@ -15,7 +15,6 @@ var Section = require('../section/section.model');
 
 // Get list of docs
 exports.index = function(req, res) {
-  console.log(parser.get_document_ids(req.originalUrl));
   Doc.find(function (err, docs) {
     if(err) { return handleError(res, err); }
     return res.json(200, docs);
