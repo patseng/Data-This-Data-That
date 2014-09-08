@@ -6,7 +6,14 @@ var mongoose = require('mongoose'),
 
 var DocSchema = new Schema({
   original_image: String,
+  name: String,
+  date_uploaded: Date, 
+  region_of_interest: {
+  	points: [],
+  },
+
   section_ids : [{type: mongoose.Schema.ObjectId, ref: 'SectionSchema'}],
+
 });
 
 module.exports = mongoose.model('Doc', DocSchema);
