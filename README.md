@@ -17,6 +17,7 @@ Data-This-Data-That
     (sudo) npm install -g grunt-cli
     (sudo) npm install -g grunt
     (sudo) npm install -g bower
+    (sudo) npm install -g generator-angular-fullstack
     
 <h3>Install All Project Dependencies </h3>
 
@@ -44,3 +45,23 @@ After app modification run
 Then deploy with
 
 	grunt buildcontrol:heroku
+
+<h1> Server Side Tips and Tricks </h1>
+
+<h3> Debugging </h3>
+
+In order to debug you must run the serve with the debug option on.
+
+	grunt serve:debug
+	
+To add a breakpoint add a debugger statement to the appropriate serverside code. For example:
+
+	exports.index = function(req, res) {
+  		debugger;
+  		return res.json(200, {'test': 'hello world'});
+	};
+
+Then navigate to the url which will trigger the breakpoint. The browser will hang as the server has hit the debugger statement. You can then navigate to http://localhost:8080/debug?port=5858 to use an interactive debugging tool.
+
+
+	
