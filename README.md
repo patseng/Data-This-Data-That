@@ -18,6 +18,10 @@ Data-This-Data-That
     (sudo) npm install -g grunt
     (sudo) npm install -g bower
     (sudo) npm install -g generator-angular-fullstack
+
+<h3>4) Install Debug Tools</h3>
+
+	(sudo) npm install -g node-inspector
     
 <h3>Install All Project Dependencies </h3>
 
