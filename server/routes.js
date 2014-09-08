@@ -11,9 +11,9 @@ module.exports = function(app) {
   // Insert routes below
   app.use('/api/users', require('./api/user'));
   app.use('/api/docs', require('./api/doc'));
-  app.use('/api/docs/[0-9]+/sections', require('./api/section'));
-  app.use('/api/docs/[0-9]+/sections/[0-9]+/textlines', require('./api/textline'));
-  app.use('/api/docs/[0-9]+/sections/[0-9]+/textlines/[0-9]+/words', require('./api/word'));
+  app.use('/api/sections', require('./api/section'));
+  app.use('/api/textlines', require('./api/textline'));
+  app.use('/api/words', require('./api/word'));
 
 
   app.use('/auth', require('./auth'));

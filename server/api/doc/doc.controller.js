@@ -11,7 +11,7 @@
 
 var _ = require('lodash');
 var Doc = require('./doc.model');
-var parser = require('../url_parser.js');
+var Section = require('../section/section.model');
 
 // Get list of docs
 exports.index = function(req, res) {
@@ -24,10 +24,11 @@ exports.index = function(req, res) {
 
 // Get a single doc
 exports.show = function(req, res) {
-  console.log(req.params.id);
+  
   Doc.findById(req.params.id, function (err, doc) {
     if(err) { return handleError(res, err); }
     if(!doc) { return res.send(404); }
+
     return res.json(doc);
   });
 };

@@ -11,7 +11,6 @@
 
 var _ = require('lodash');
 var Word = require('./word.model');
-var parser = require('../url_parser.js');
 
 // Get list of words
 exports.index = function(req, res) {

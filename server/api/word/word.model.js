@@ -4,9 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var WordSchema = new Schema({
-  name: String,
-  info: String,
-  active: Boolean
+	textline_id : mongoose.Schema.ObjectId,
 });
 
 module.exports = mongoose.model('Word', WordSchema);

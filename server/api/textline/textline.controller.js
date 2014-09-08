@@ -11,7 +11,6 @@
 
 var _ = require('lodash');
 var Textline = require('./textline.model');
-var parser = require('../url_parser.js');
 
 // Get list of textlines
 exports.index = function(req, res) {

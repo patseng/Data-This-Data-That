@@ -11,7 +11,7 @@
 
 var _ = require('lodash');
 var Section = require('./section.model');
-var parser = require('../url_parser.js');
+var Doc = require('../doc/doc.model');
 
 // Get list of sections
 exports.index = function(req, res) {
