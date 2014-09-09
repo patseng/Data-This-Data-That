@@ -1,0 +1,5 @@
+<form ng-controller="ImageUploaderCtrl">
+	<input type="file" file-input="files" multiple />
+	<button ng-click="upload()">Upload</button>
+	<li ng-repeat="file in files">{{file.name}}</li>
+</form>
