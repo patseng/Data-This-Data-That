@@ -56,7 +56,7 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
 var el;
 window.onload = function () {
   
-    imgPath = "/assets/images/sagomod.png";
+    imgPath = "/assets/images/letters.jpg";
 
     var dragger = function () {
         this.ox = this.type == "rect" ? this.attr("x") : this.attr("cx");
@@ -70,17 +70,17 @@ window.onload = function () {
                 r.connection(connections[i]);
             }
             r.safari();
-            if (this.ox + this.attr("rx") + dx >= width) {
-              this.attr("cx", width - this.attr("rx"));
+            if (this.ox + dx >= width) {
+              this.attr("cx", width);
             }
-            if (this.ox - this.attr("rx") + dx <= 0) {
-              this.attr("cx", 0 + this.attr("rx"));
+            if (this.ox + dx <= 0) {
+              this.attr("cx", 0);
             }
-            if (this.oy + this.attr("ry") + dy >= height) {
-              this.attr("cy", height - this.attr("ry"));
+            if (this.oy + dy >= height) {
+              this.attr("cy", height);
             }
-            if (this.oy - this.attr("ry") + dy <= 0) {
-              this.attr("cy", 0 + this.attr("ry"));
+            if (this.oy + dy <= 0) {
+              this.attr("cy", 0);
             }
         },
         up = function () {

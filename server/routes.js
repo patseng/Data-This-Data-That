@@ -23,6 +23,16 @@ module.exports = function(app) {
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
 
+  app.route('/testtextline')
+   .get(function(req, res) {
+     res.sendfile(app.get('appPath') + '/textlinecroptest.html');
+   });
+
+  app.route('/test4points')
+    .get(function(req, res) {
+      res.sendfile(app.get('appPath') + '/4pointscroptest.html');
+    });
+
   // All other routes should redirect to the index.html
   app.route('/*')
     .get(function(req, res) {
