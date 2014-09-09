@@ -8,6 +8,7 @@ var Textline = require('../api/textline/textline.model');
 var Doc = require('../api/doc/doc.model');
 var Section = require('../api/section/section.model');
 var User = require('../api/user/user.model');
+var Task = require('../api/task/task.model');
 
 Textline.find({}).remove(function() {
   Textline.create({
@@ -74,7 +75,17 @@ Doc.find({}).remove(function() {
 });
 
 
-
+Task.find({}).remove(function() {
+  Task.create({
+    task_type: "regionOfInterest",
+  }, {
+    task_type: "textline",
+  }, {
+    task_type: "section",
+  }, function() {
+      console.log('finished populating textlines');
+    });
+});
 
 
 

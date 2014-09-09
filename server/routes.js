@@ -14,6 +14,7 @@ module.exports = function(app) {
   app.use('/api/sections', require('./api/section'));
   app.use('/api/textlines', require('./api/textline'));
   app.use('/api/words', require('./api/word'));
+  app.use('/api/tasks', require('./api/task'));
 
 
   app.use('/auth', require('./auth'));
