@@ -16,7 +16,7 @@ var Doc = require('../doc/doc.model');
 // Get list of sections
 exports.index = function(req, res) {
   console.log("section page");
-  Section.find(function (err, sections) {
+  Section.find(req.query, function (err, sections) {
     if(err) { return handleError(res, err); }
     return res.json(200, sections);
   });
