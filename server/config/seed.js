@@ -82,8 +82,13 @@ Doc.find({}).remove(function() {
 User.find({}).remove(function() {
   User.create({
     provider: 'local',
-    name: 'Test User',
-    email: 'test@test.com',
+    name: 'Test User 1',
+    email: 'test1@test.com',
+    password: 'test'
+  }, {
+    provider: 'local',
+    name: 'Test User 2',
+    email: 'test2@test.com',
     password: 'test'
   }, {
     provider: 'local',
