@@ -7,7 +7,11 @@ app.controller('AssignCtrl', function ($scope, $http) {
   		$scope.annotators = data;
   	});
 
-    $scope.message = 'Hello';
+    $scope.taskNames = ['Region of Interest', 'Sections', 'Textlines'];
+    $scope.taskType = $scope.taskNames[0];
+
+    $scope.numTasksToAssign = 1;
+
 
     $scope.setAssignedTo = function(annotator_idx) {
     	console.log("did assign to");
@@ -21,13 +25,26 @@ app.controller('AssignCtrl', function ($scope, $http) {
     	$scope.assignedTo = undefined;
     }
 
+    $scope.makeAssignment = function () {
+    	var rootUrl = "/api/tasks/makeAssignments";
+    	var assignedToParam = "assignedTo_id=" + $scope.assignedTo._id;
+    	var numAssignmentsParam = "numAssignments=" + $scope.numTasksToAssign;
+    	var params = "?" + assignedToParam + "&" + numAssignmentsParam;
+    	var postUrl = rootUrl + params;
+
+    	console.log(postUrl);
+
+    	$http.post(postUrl).success(function(data, status, headers, config) {
+  			console.log("done posting...");
+  		});
+    }
+
   });
 
 app.filter('performSearch', function() {
 	return function(annotators, searchString){
-
 		if(!searchString){
-			return annotators;
+			return [];
 		}
 
 		var result = [];

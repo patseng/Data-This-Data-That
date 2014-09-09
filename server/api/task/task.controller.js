@@ -54,6 +54,11 @@ exports.update = function(req, res) {
   });
 };
 
+// Makes assignments
+exports.assign = function(req, res) {
+  console.log(req.query);
+};
+
 // Deletes a task from the DB.
 exports.destroy = function(req, res) {
   Task.findById(req.params.id, function (err, task) {
