@@ -2,8 +2,10 @@
 
 angular.module('notegoatApp')
   .controller('RegionofinterestCtrl', function ($scope, $http, Auth, $state, Doc) {
-		$scope.doc = new Doc();
-    $scope.docId = $state.params.docId;
+		$scope.doc = new Doc.get({_id: $state.params.docId}, function(value, headers) {
+      // get rid of this later
+      $scope.noImage = value.image_url === undefined;
+    });
 
 		// var Doc = $resource('/api/docs/:_id');
 		// $scope.doc = new Doc();

@@ -23,12 +23,14 @@ exports.index = function(req, res) {
 
 // Get a single doc
 exports.show = function(req, res) {
-  
+
   Doc.findById(req.params.id, function (err, doc) {
     if(err) { return handleError(res, err); }
+
     if(!doc) { return res.send(404); }
 
-    return res.json(doc);
+    // on documents, the image_url is stored as a virtual field
+    return res.json(doc.toObject({virtuals: true}));
   });
 };
 
