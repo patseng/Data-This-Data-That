@@ -29,12 +29,12 @@
 
         <h1>Tasks</h1>
 
-        <div class="dropdown">
+        <div class="dropdown" is-open="isOpen">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
     {{currentSelectedItem}}
     <span class="caret"></span>
   </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" ng-click="isOpen = false">
     <li role="presentation" ng-repeat="todo in taskNames"><a role="menuitem" tabindex="-1" href="" ng-click="updateTable($index)" >{{todo}}</a></li>
       </div>
 
