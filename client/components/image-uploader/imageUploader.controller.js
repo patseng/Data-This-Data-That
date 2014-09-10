@@ -17,6 +17,7 @@ angular.module('notegoatApp')
                 (function (file, i) {
                     $http.get('/api/aws/s3Policy?mimeType='+ file.type).success(function(response) {
                         var s3Params = response;
+
                         $scope.upload[i] = $upload.upload({
                             url: 'https://' + $rootScope.config.awsConfig.bucket + '.s3.amazonaws.com/',
                             method: 'POST',
@@ -45,6 +46,12 @@ angular.module('notegoatApp')
                                     etag: data.postresponse.etag
                                 };
                                 $scope.imageUploads.push(parsedData);
+
+                                $http.post('/api/docs/', {
+                                    s3Key: data.postresponse.key
+                                }).success(function(){
+                                    alert('success');
+                                })
 
                             } else {
                                 alert('Upload Failed');

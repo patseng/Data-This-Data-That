@@ -23,11 +23,11 @@ var DocSchema = new Schema({
 });
 
 // adds a virtual field (one that is not stored in the database)
-DocSchema.virtual('image_url').get(function () {
-	var params = {Bucket: config.bucket, Key: 's3UploadExample/1404$2014-08-02 11.59.51.jpg'};
+DocSchema.methods.image_url = function (cb) {
+	var params = {Bucket: config.bucket, Key: this.s3Key};
 	var url = s3.getSignedUrl('getObject', params);
 	return url;
-});
+};
 
 
 module.exports = mongoose.model('Doc', DocSchema);

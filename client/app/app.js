@@ -32,7 +32,7 @@ angular.module('notegoatApp', [
         return config;
       },
 
-      // Intercept 401s and redirect you to login
+      // Intercept 401s (Unathorized) and redirect you to login
       responseError: function(response) {
         if(response.status === 401) {
           $location.path('/login');

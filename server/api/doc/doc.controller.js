@@ -29,8 +29,7 @@ exports.show = function(req, res) {
 
     if(!doc) { return res.send(404); }
 
-    // on documents, the image_url is stored as a virtual field
-    return res.json(doc.toObject({virtuals: true}));
+    return res.json(_.extend(doc.toJSON(), {image_url: doc.image_url()}));
   });
 };
 

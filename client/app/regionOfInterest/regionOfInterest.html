@@ -4,10 +4,6 @@
 	<h1>This is the regionOfInterest view for document {{ docId }}</h1>
 </div>
 
-<div ng-show="noImage" class="col-md-12">
-	<div ng-include="'components/image-uploader/imageUploader.html'"></div>
-</div>
-
 <div ng-show="!noImage">
 		<img src="{{doc.image_url}}" alt="">
 </div>
