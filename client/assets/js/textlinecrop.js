@@ -105,7 +105,7 @@ window.onload = function () {
           clickCatcher.attr("fill", Raphael.getColor());
           clickCatcher.attr("fill-opacity", 0.0);
           clickCatcher.click(function (e){
-            var newShape = r.ellipse(e.x-10, e.y-50, 10, 10);
+            var newShape = r.circle(e.x-10, e.y-50, hslider.getVal()/2);
             newShape.attr({fill: color, stroke: color, "fill-opacity": 0.5, "stroke-width": 2, cursor: "move"});
             newShape.drag(move, dragger, up);
             shapes.push(newShape);
@@ -117,20 +117,26 @@ window.onload = function () {
           })
           
           // Define the slider to get the height
-          hslider = r.Slider(null,{x:width + 10,y:height - 10, val1:1, val2:200, initVal:30}); 
+          hslider = r.Slider(null,{x:width + 60,y:height - 70, val1:1, val2:200, initVal:30}); 
           var tr = r.TextBox({ 
-          x:hslider.getX()-20, y:hslider.getY()-32, width:40, height:22, str:Math.round(hslider.getVal()), textAttrs:{'font-size':20}}); 
+          x:hslider.getX()+10, y:hslider.getY()-32, width:40, height:22, str:Math.round(hslider.getVal()), textAttrs:{'font-size':20}}); 
           hslider.onmove = function() { 
             tr.x=hslider.getX()-20; 
             tr.setStr(Math.round(hslider.getVal()));
             for (var i = 0, ii = connections.length; i < ii; i++) {
               connections[i].line.attr("stroke-width", hslider.getVal());
-            } 
+            }
+            for (var i = 0, ii = shapes.length; i < ii; i++) {
+              shapes[i].attr("r", hslider.getVal()/2);
+            }
           }
           
           // Define the next button
           var nextButton = r.Button({x:width + 120, y:height - 150, str:'Next'});
           nextButton.onClick = function() {
+            if (shapes.length == 0) {
+              return;
+            }
             for (var j = connections.length; j--;) { // Change previous highlight to gray
               connections[j].line.attr("stroke", "#000");
             }
