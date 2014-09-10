@@ -46,7 +46,7 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
         var color = typeof line == "string" ? line : "#000";
         return {
             bg: bg && bg.split && this.path(path).attr({stroke: bg.split("|")[0], fill: "none", "stroke-width": bg.split("|")[1] || 3}),
-            line: this.path(path).attr({stroke: color, fill: "none"}),
+            line: this.path(path).attr({stroke: color, fill: "none", "stroke-width": hslider.getVal(), "opacity": 0.2}),
             from: obj1,
             to: obj2
         };
@@ -94,7 +94,7 @@ window.onload = function () {
         myImg.onload = function() {
           width = myImg.width;
           height = myImg.height;
-          r.setSize(width, height);
+          r.setSize(width + 150, height);
           //create the image with the obtained width and height:
           r.image(imgPath, 0, 0, width, height);
           var clickCatcher = r.rect(0, 0, width, height);
@@ -108,10 +108,25 @@ window.onload = function () {
             shapes.push(newShape);
             if(shapes.length > 1) {
               connections.push(r.connection(shapes[shapes.length-2], shapes[shapes.length-1], "#000"));
+              shapes[shapes.length-2].toFront();
             }
+            newShape.toFront();
           })
-             connections = [],
-              shapes = [];
+          
+          // Define the slider to get the height
+          hslider = r.Slider(null,{x:width + 10,y:height - 10, val1:1, val2:200, initVal:30}); 
+          var tr = r.TextBox({ 
+          x:hslider.getX()-20, y:hslider.getY()-32, width:40, height:22, str:Math.round(hslider.getVal()), textAttrs:{'font-size':20}}); 
+          hslider.onmove = function() { 
+            tr.x=hslider.getX()-20; 
+            tr.setStr(Math.round(hslider.getVal()));
+            for (var i = 0, ii = connections.length; i < ii; i++) {
+              connections[i].line.attr("stroke-width", hslider.getVal());
+            } 
+          }
+          
+          connections = [],
+          shapes = [];
           for (var i = 0, ii = shapes.length; i < ii; i++) {
               var color = Raphael.getColor();
               shapes[i].attr({fill: color, stroke: color, "fill-opacity": 0.5, "stroke-width": 2, cursor: "move"});
