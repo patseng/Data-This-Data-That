@@ -12,6 +12,7 @@
 var _ = require('lodash');
 var Task = require('./task.model');
 var Section = require('../section/section.model');
+var User = require('../user/user.model');
 
 // Get list of tasks
 exports.index = function(req, res) {
@@ -57,6 +58,33 @@ exports.update = function(req, res) {
 // Makes assignments
 exports.assign = function(req, res) {
   console.log(req.query);
+  var numAssignments = req.query["numAssignments"];
+
+  //Get tasks of correct type
+  Task.find({"task_type": req.query["taskType"]}, function (err, tasks) {
+    if(err) { return handleError(res, err); }
+    var tasksToAssign = tasks.slice(0, numAssignments);
+    var userId = req.query["assignedTo_id"];
+    //Get user
+    User.findById(userId, function (err, user) {
+      if (err) return next(err);
+      if (!user) return res.send(401);
+
+      for (var i = 0; i < tasksToAssign.length; i++) { 
+        var taskToAssign = tasksToAssign[i];
+        taskToAssign.assignedTo_id = user._id;
+        taskToAssign.save();
+        user.assignedTask_ids.push(taskToAssign._id);
+      }
+      user.save();
+
+      console.log(user);
+      console.log(tasksToAssign);
+
+      res.json(user.profile);
+    });
+  });
+
 };
 
 // Deletes a task from the DB.

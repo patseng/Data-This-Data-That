@@ -7,11 +7,9 @@ app.controller('AssignCtrl', function ($scope, $http) {
   		$scope.annotators = data;
   	});
 
-    $scope.taskNames = ['Region of Interest', 'Sections', 'Textlines'];
+    $scope.taskNames = ['regionOfInterest', 'section', 'textline'];
     $scope.taskType = $scope.taskNames[0];
-
     $scope.numTasksToAssign = 1;
-
 
     $scope.setAssignedTo = function(annotator_idx) {
     	console.log("did assign to");
@@ -29,7 +27,8 @@ app.controller('AssignCtrl', function ($scope, $http) {
     	var rootUrl = "/api/tasks/makeAssignments";
     	var assignedToParam = "assignedTo_id=" + $scope.assignedTo._id;
     	var numAssignmentsParam = "numAssignments=" + $scope.numTasksToAssign;
-    	var params = "?" + assignedToParam + "&" + numAssignmentsParam;
+      var taskTypeParam = "taskType=" + $scope.taskType;
+    	var params = "?" + assignedToParam + "&" + numAssignmentsParam + "&" + taskTypeParam;
     	var postUrl = rootUrl + params;
 
     	console.log(postUrl);

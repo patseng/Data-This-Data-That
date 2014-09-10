@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
+var Task = require('../task/task.model');
 
 var UserSchema = new Schema({
   name: String,
@@ -13,7 +14,9 @@ var UserSchema = new Schema({
   },
   hashedPassword: String,
   provider: String,
-  salt: String
+  salt: String,
+  assignedTask_ids : [{type: mongoose.Schema.ObjectId, ref: 'TaskSchema'}],
+
 });
 
 /**
