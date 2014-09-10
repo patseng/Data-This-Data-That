@@ -55,7 +55,7 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
 var el;
 window.onload = function () {
   
-    imgPath = "/assets/images/letters.jpg";
+    imgPath = document.getElementById("holder").className;
 
     var dragger = function () {
         this.ox = this.type == "rect" ? this.attr("x") : this.attr("cx");

@@ -56,7 +56,8 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
 var el;
 window.onload = function () {
   
-    imgPath = "/assets/images/letters.jpg";
+    imgPath = document.getElementById("holder").className;
+    multiple = document.getElementById("holder").title == "multiple";
 
     var dragger = function () {
         this.ox = this.type == "rect" ? this.attr("x") : this.attr("cx");
@@ -66,8 +67,16 @@ window.onload = function () {
         move = function (dx, dy) {
             var att = this.type == "rect" ? {x: this.ox + dx, y: this.oy + dy} : {cx: this.ox + dx, cy: this.oy + dy};
             this.attr(att);
-            for (var i = connections.length; i--;) {
-                r.connection(connections[i]);
+            if (!multiple) {
+              for (var i = connections.length; i--;) {
+                  r.connection(connections[i]);
+              }
+            } else {
+              for (var i = overall_connections_arr.length; i--;) {
+                for (var j = overall_connections_arr[i].length; j--;) {
+                  r.connection(overall_connections_arr[i][j]);
+                }
+              }
             }
             r.safari();
             if (this.ox + dx >= width) {
@@ -94,17 +103,19 @@ window.onload = function () {
         myImg.onload = function() {
           width = myImg.width;
           height = myImg.height;
-          r.setSize(width, height);
+          r.setSize(width + 200, height);
           //create the image with the obtained width and height:
           r.image(imgPath, 0, 0, width, height);
+          
              connections = [],
-              shapes = [  r.ellipse(190, 100, 20, 20),
-                          r.ellipse(300, 100, 20, 20),
-                          r.ellipse(300, 300, 20, 20),
-                          r.ellipse(190, 300, 20, 20)
+              shapes = [  r.circle(190, 100, 20),
+                          r.circle(300, 100, 20),
+                          r.circle(300, 300, 20),
+                          r.circle(190, 300, 20)
                       ];
+                      
+          var color = Raphael.getColor();
           for (var i = 0, ii = shapes.length; i < ii; i++) {
-              var color = Raphael.getColor();
               shapes[i].attr({fill: color, stroke: color, "fill-opacity": 0.5, "stroke-width": 2, cursor: "move"});
               shapes[i].drag(move, dragger, up);
           }
@@ -112,7 +123,54 @@ window.onload = function () {
           connections.push(r.connection(shapes[1], shapes[2], "#000"));
           connections.push(r.connection(shapes[2], shapes[3], "#000"));
           connections.push(r.connection(shapes[3], shapes[0], "#000"));
-        };
+          
+          // Add title="multiple"
+          if (multiple) {
+            overall_shapes_arr = [];
+            overall_connections_arr = [];
+            overall_shapes_arr.push(shapes);
+            overall_connections_arr.push(connections);
+            
+            // Define the New button
+            var newButton = r.Button({x:width+50, y:height/2, str:'New'});
+            newButton.onClick = function() {
+              connections = [],
+              shapes = [    r.circle(190, 100, 20),
+                            r.circle(300, 100, 20),
+                            r.circle(300, 300, 20),
+                            r.circle(190, 300, 20)
+                        ];
+
+              var color = Raphael.getColor();
+              for (var i = 0, ii = shapes.length; i < ii; i++) {
+                  shapes[i].attr({fill: color, stroke: color, "fill-opacity": 0.5, "stroke-width": 2, cursor: "move"});
+                  shapes[i].drag(move, dragger, up);
+              }
+              connections.push(r.connection(shapes[0], shapes[1], "#000"));
+              connections.push(r.connection(shapes[1], shapes[2], "#000"));
+              connections.push(r.connection(shapes[2], shapes[3], "#000"));
+              connections.push(r.connection(shapes[3], shapes[0], "#000"));
+              overall_connections_arr.push(connections);
+              overall_shapes_arr.push(shapes);
+            } // End newButton.onClick
+            
+            // Define the Remove Last button
+            var removeButton = r.Button({x:width+50, y:height/2 + 40, str:'Remove'});
+            removeButton.onClick = function() {
+              if (overall_shapes_arr.length > 0) {
+                toRemoveShapes = overall_shapes_arr.pop();
+                for (var i = 0; i < toRemoveShapes.length; i++) {
+                  toRemoveShapes[i].remove();
+                }
+                toRemoveConnections = overall_connections_arr.pop();
+                for (var i = 0; i < toRemoveConnections.length; i++) {
+                  toRemoveConnections[i].line.remove();
+                }
+              }
+            }
+            
+          } // End multiple
+        }
         myImg.src = imgPath;
         
 };
