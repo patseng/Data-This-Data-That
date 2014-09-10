@@ -1,4 +1,7 @@
 
+
+{{percentCompleted}}
+
     <div class="container theme-showcase" role="main">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -13,7 +16,7 @@
         <h1>Your Task Progress</h1>
       </div>
       <div class="progress">
-        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span class="sr-only">60% Complete</span></div>
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: {{percentCompleted * 100}}%;"><span class="sr-only"></span></div>
       </div>
       
 
@@ -32,7 +35,7 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    <li role="presentation" ng-repeat="todo in todos"><a role="menuitem" tabindex="-1" href="" ng-click="updateTable($index)" >{{todo}}</a></li>
+    <li role="presentation" ng-repeat="todo in taskNames"><a role="menuitem" tabindex="-1" href="" ng-click="updateTable($index)" >{{todo}}</a></li>
       </div>
 
 
@@ -51,10 +54,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="page in TableArray">
+              <tr ng-repeat="task in tasks[currTaskType]">
                 <td>{{$index}}</td>
-                <td><a href="">{{page}}</a></td>
-                <td>{{$index < Completed.length ? Completed[$index] : "NA"}}</td>
+                <td><a href="">{{task._id}}</a></td>
+                <td>{{task.isCompleted}}</td>
               </tr>
               
             </tbody>

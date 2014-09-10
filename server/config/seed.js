@@ -78,6 +78,13 @@ Doc.find({}).remove(function() {
 Task.find({}).remove(function() {
   Task.create({
     task_type: "regionOfInterest",
+  },{
+    task_type: "regionOfInterest",
+  },{
+    task_type: "regionOfInterest",
+    isCompleted: true,
+  },{
+    task_type: "regionOfInterest",
   }, {
     task_type: "textline",
   }, {

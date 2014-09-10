@@ -1,42 +1,52 @@
 'use strict';
 
 angular.module('notegoatApp')
-  .controller('TasksCtrl', function ($scope) {
+  .controller('TasksCtrl', function ($scope, $http, Auth) {
 
-  	
-  	$scope.todos = ['Pages', 'Sections', 'Text Lines', 'Words', 'Characters'];
+    $scope.tasks = {}
 
-    $scope.currentSelectedItem = 'Pages';
+    $scope.currentUser = Auth.getCurrentUser();
 
-    $scope.Pages = ['Page1', 'Page2', 'Page3', 'Page4', 'Page5', 'page6', 'page7', 'page8', 'page9'];
-    $scope.Sections = ['Section1', 'Section2', 'Section3', 'Section4', 'Section5'];
-    $scope.TextLines = ['Line1', 'Line2', 'Line3', 'Line4', 'Line5', 'Line7', 'Line8', 'line9'];
-    $scope.Words = ['Word1', 'Word2', 'Word3', 'Word4', 'Word5'];
+    var numCompletedTasks = 0;
+    var numTotalTasks = 0;
+    var url = '/api/tasks?assignedTo_id=' + $scope.currentUser._id;
+  	$http.get(url).success(function(data, status, headers, config) {
+      console.log(data);
+      numTotalTasks = data.length;
+      for (var i = 0; i < data.length; i++) {
+        var task = data[i];
+        var taskType = task.task_type;
+        console.log(taskType);
+        if (!$scope.tasks[taskType]) {
+          $scope.tasks[taskType] = [task];
+        }
+        else {
+          $scope.tasks[taskType].push(task);
+        }
 
-    $scope.TableArray = $scope.Pages;
+        if (task.isCompleted) {
+          numCompletedTasks += 1;
+        }
+      }
+      if (numTotalTasks == 0) $scope.percentCompleted = 0;
+      else $scope.percentCompleted = 1.0 * numCompletedTasks / numTotalTasks;
 
-    $scope.Completed = ['Yes', 'No', 'No', 'Yes'];
+      console.log($scope.tasks);
 
+    });
+
+  	$scope.taskNames = ['Region of Interest', 'Sections', 'Textlines'];
+    $scope.taskTypes = ['regionOfInterest', 'section', 'textline'];
+    $scope.currTaskType = $scope.taskTypes[0];
+    $scope.currentSelectedItem = $scope.taskNames[0];
 
     $scope.updateTable = function(index) {
       console.log('Table updated at index ' + index);
 
-      if (index == 0) {
-        $scope.TableArray = $scope.Pages;
-        $scope.currentSelectedItem = "Pages";
-      } else if (index == 1) {
-        $scope.TableArray = $scope.Sections;
-        $scope.currentSelectedItem = "Sections";
-      } else if (index == 2) {
-        $scope.TableArray = $scope.TextLines;
-        $scope.currentSelectedItem = "Text Lines";
-      } else if (index == 3) {
-        $scope.TableArray = $scope.Words;
-        $scope.currentSelectedItem = "Words";
-      } 
+      $scope.currTaskType = $scope.taskTypes[index];
+      $scope.currentSelectedItem = $scope.taskNames[index];
+      
     }
-
-    $scope.message = 'Hello';
   });
 
 
