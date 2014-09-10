@@ -43,10 +43,9 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
         line.bg && line.bg.attr({path: path});
         line.line.attr({path: path});
     } else {
-        var color = typeof line == "string" ? line : "#000";
         return {
             bg: bg && bg.split && this.path(path).attr({stroke: bg.split("|")[0], fill: "none", "stroke-width": bg.split("|")[1] || 3}),
-            line: this.path(path).attr({stroke: color, fill: "none", "stroke-width": hslider.getVal(), "opacity": 0.2}),
+            line: this.path(path).attr({stroke: "#00f", fill: "none", "stroke-width": hslider.getVal(), "opacity": 0.2}),
             from: obj1,
             to: obj2
         };
@@ -66,8 +65,10 @@ window.onload = function () {
         move = function (dx, dy) {
             var att = this.type == "rect" ? {x: this.ox + dx, y: this.oy + dy} : {cx: this.ox + dx, cy: this.oy + dy};
             this.attr(att);
-            for (var i = connections.length; i--;) {
-                r.connection(connections[i]);
+            for (var i = overall_connections_arr.length; i--;) {
+              for (var j = overall_connections_arr[i].length; j--;) {
+                r.connection(overall_connections_arr[i][j]);
+              }
             }
             r.safari();
             if (this.ox + dx >= width) {
@@ -89,19 +90,21 @@ window.onload = function () {
         },
         
         r = Raphael("holder", 800, 800);
+        color = Raphael.getColor();
 
         var myImg = new Image;
         myImg.onload = function() {
           width = myImg.width;
           height = myImg.height;
-          r.setSize(width + 150, height);
+          r.setSize(width + 250, height);
           //create the image with the obtained width and height:
           r.image(imgPath, 0, 0, width, height);
+          
+          // Define the function to create connected circles on clicks
           var clickCatcher = r.rect(0, 0, width, height);
           clickCatcher.attr("fill", Raphael.getColor());
           clickCatcher.attr("fill-opacity", 0.0);
           clickCatcher.click(function (e){
-            var color = Raphael.getColor();
             var newShape = r.ellipse(e.x-10, e.y-50, 10, 10);
             newShape.attr({fill: color, stroke: color, "fill-opacity": 0.5, "stroke-width": 2, cursor: "move"});
             newShape.drag(move, dragger, up);
@@ -125,13 +128,68 @@ window.onload = function () {
             } 
           }
           
+          // Define the next button
+          var nextButton = r.Button({x:width + 120, y:height - 150, str:'Next'});
+          nextButton.onClick = function() {
+            for (var j = connections.length; j--;) { // Change previous highlight to gray
+              connections[j].line.attr("stroke", "#000");
+            }
+            currSet += 1;
+            if (currSet < overall_shapes_arr.length) { // Navigating forward to existing set
+              shapes = overall_shapes_arr[currSet];
+              connections = overall_connections_arr[currSet];
+              color = overall_color_arr[currSet];
+            } else { // New set
+              shapes = [];
+              connections = [];
+              color = Raphael.getColor();
+              overall_shapes_arr.push(shapes); // Contents of overall set updated when modifying local sets
+              overall_connections_arr.push(connections);
+              overall_color_arr.push(color);
+            }
+            for (var j = connections.length; j--;) { // Change next highlight to blue
+               connections[j].line.attr("stroke", "#00f");
+             }
+          }
+          
+          // Define the back button
+          var backButton = r.Button({x:width + 10, y:height - 150, str:'Back'});
+          backButton.onClick = function() {
+            if (currSet != 0) {
+              for (var j = connections.length; j--;) { // Change previous highlight to gray
+                 connections[j].line.attr("stroke", "#000");
+              }
+              currSet -= 1;
+              shapes = overall_shapes_arr[currSet];
+              connections = overall_connections_arr[currSet];
+              color = overall_color_arr[currSet];
+              for (var j = connections.length; j--;) { // Change next highlight to blue
+                 connections[j].line.attr("stroke", "#00f");
+              }
+            }
+          }
+          
+          // Define the undo button
+          var undoButton = r.Button({x:width + 60, y:height - 190, str:'Undo'});
+          undoButton.onClick = function() {
+            if (shapes.length > 0) {
+              if (connections.length > 0) {
+                connections.pop().line.remove();
+              }
+              shapes.pop().remove();
+            }            
+          }
+          
+          currSet = 0,
+          overall_shapes_arr = [],
+          overall_connections_arr = [],
+          overall_color_arr = [],
           connections = [],
           shapes = [];
-          for (var i = 0, ii = shapes.length; i < ii; i++) {
-              var color = Raphael.getColor();
-              shapes[i].attr({fill: color, stroke: color, "fill-opacity": 0.5, "stroke-width": 2, cursor: "move"});
-              shapes[i].drag(move, dragger, up);
-          }
+          // Add first set
+          overall_shapes_arr.push(shapes);
+          overall_connections_arr.push(connections);
+          overall_color_arr.push(color);
         };
         myImg.src = imgPath;
         
