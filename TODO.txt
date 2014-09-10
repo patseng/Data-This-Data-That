@@ -1,0 +1,4 @@
+AWS S3:
+- change CORS to only allow requests from localhost and production website
+- grant IAM user patseng full access and use patseng's access keys (http://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html)
+-
